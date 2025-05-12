@@ -1,0 +1,360 @@
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MS Studio</title>
+    <!-- Agregar fuente estilizada de Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'IBM Plex Mono', monospace; /* Fuente Double Struck */
+            font-size: 18px; /* Tamaño de letra 18px para todo el texto */
+            background-color: #31024B; /* Verde pastel por defecto */
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.5s ease; /* Transición suave para el color de fondo */
+            color: #000000;
+            letter-spacing: 1px;
+        }
+
+        /* Estilos del formulario de login */
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 20px;
+            background-color: #D992DD;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 18px;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .login-container button:hover {
+            background-color: #555;
+        }
+
+        .error-message {
+            color: red;
+            display: none;
+            margin-top: 10px;
+        }
+
+        /* Estilos del contenido principal */
+        header {
+            background: #FEF26A;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px 15px;
+            display: block;
+        }
+
+        .submenu {
+            display: none;
+            position: absolute;
+            background-color: #444;
+            list-style-type: none;
+            padding: 10px 0;
+            min-width: 180px;
+            z-index: 1;
+        }
+
+        .submenu li {
+            margin: 0;
+        }
+
+        nav ul li:hover .submenu {
+            display: block;
+        }
+
+        .submenu a {
+            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
+            display: block;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        .section {
+            background: #fff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        /* Estilo para la sección de fotos */
+        #Fotos {
+            background: #D992DD;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            display: grid; /* Usamos grid para el diseño de las imágenes */
+            grid-template-columns: repeat(2, 1fr); /* Inicialmente dos imágenes por fila */
+            gap: 10px; /* Espaciado entre imágenes */
+            width: 100%;
+            overflow: auto;
+        }
+
+        /* Para las imágenes dentro de la sección */
+        #Fotos img {
+            width: 100%; /* Las imágenes ocuparán el 100% de su celda */
+            height: auto; /* Mantener la proporción de las imágenes */
+            max-width: 300px; /* Establecer un tamaño máximo para todas las imágenes */
+            display: block;
+            margin: 0 auto; /* Centrar las imágenes dentro de sus celdas */
+        }
+
+        /* Mover la primera imagen dos espacios hacia la derecha */
+        #Fotos img:nth-of-type(1) {
+            margin-right: 5px; /* Mueve la primera imagen hacia la derecha */
+        }
+
+        /* Cambio de fondo cuando el tamaño de la pantalla es pequeño (menos de 600px) */
+        @media (max-width: 600px) {
+            body {
+                background-color: #F7DA47 !important; /* Rosa pastel cuando la pantalla es pequeña */
+            }
+
+            .login-container {
+                background-color: #3CC2DA; /* Cambia este color al que desees */
+            }
+
+            #Fotos {
+                background: #C79A32; /* Color al reducir tamaño */
+                grid-template-columns: 1fr; /* De uno por uno en pantallas pequeñas */
+            }
+
+            #video {
+                background: #3CC2DA; /* Color al reducir tamaño */
+            }
+        }
+
+        /* Estilo Unicode Double Struck */
+        .unicode-double-struck {
+            font-family: 'IBM Plex Mono', monospace; /* Fuente Double Struck */
+            font-size: 40px; /* Hacer el título más grande */
+            font-weight: bold;
+            color: white; /* Color por defecto: blanco */
+            letter-spacing: 2px;
+            transition: color 0.5s; /* Transición suave al cambio de color */
+        }
+
+        /* Cambiar el color a negro al agrandar el título */
+        .unicode-double-struck:hover {
+            color: black;
+        }
+
+        /* Ocultar el contenido hasta que se haya iniciado sesión */
+        .content {
+            display: none;
+        }
+
+        /* Estilo para la sección de video */
+        #video {
+            background: #D992DD;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        #video video {
+            width: 100%; /* Ajusta el video al ancho del contenedor */
+            max-width: 800px; /* Limita el tamaño máximo del video */
+            height: auto; /* Mantiene la proporción del video */
+            display: block;
+            margin: 0 auto; /* Centra el video dentro del contenedor */
+        }
+
+        /* Cambiar el fondo del título y menú a color azul */
+        header {
+            background-color: #F577ED; /* Fondo azul oscuro */
+            color: #000000;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #FEF26A; /* Fondo azul oscuro en el menú */
+        }
+
+        nav a {
+            color: #000000; /* Mantener el color de los enlaces en blanco */
+        }
+
+        nav ul li:hover .submenu a {
+            color: #000000; /* Mantener el color de los enlaces en blanco al pasar el cursor */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Formulario de login (visible solo si no se ha iniciado sesión) -->
+    <div class="login-container" id="loginContainer">
+        <h2>Iniciar Sesión</h2>
+        <form id="loginForm" onsubmit="return validateLogin()">
+            <input type="email" id="email" placeholder="Correo Electrónico" required>
+            <input type="password" id="password" placeholder="Contraseña" required>
+            <button type="submit">Acceder</button>
+        </form>
+        <div id="errorMessage" class="error-message">Correo o contraseña incorrectos.</div>
+    </div>
+
+    <!-- Contenido principal (visible solo después de iniciar sesión) -->
+    <div class="content" id="content">
+        <header>
+            <h1 class="unicode-double-struck">𝕸𝕾 𝕾𝕿𝕌𝔻𝕴𝕺</h1> <!-- Título en estilo Double Struck -->
+            <nav>
+                <ul>
+                    <li>
+                        <a href="#">Menú 1</a>
+                        <ul class="submenu">
+                            <li><a href="#">TITO</a></li>
+                            <li><a href="#">TITO 1.2</a></li>
+                            <li><a href="#">TITO1.3</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Menú 2</a>
+                        <ul class="submenu">
+                            <li><a href="#">DOBLE 2.1</a></li>
+                            <li><a href="#">DOBLE 2.2</a></li>
+                            <li><a href="#">DOBLE 2.3</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Menú 3</a>
+                        <ul class="submenu">
+                            <li><a href="#">P 3.1</a></li>
+                            <li><a href="#">P 3.2</a></li>
+                            <li><a href="#">P 3.3</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#final">Ir al final</a></li>                
+                    <li><a href="#" onclick="logout()">Cerrar sesión</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="container">
+            <!-- Sección de imágenes -->
+            <section class="section" id="Fotos">
+                <h1>Sección de Fotos</h1>
+                <img src="jose.png" alt="Foto 1" class="imagen">
+                <img src="tito.img" alt="Foto 2">
+                <img src="tito2.img" alt="Foto 3">
+                <img src="tito4.img" alt="Foto 4">
+                <img src="titos.img" alt="Foto 5">
+                <img src="tito3.img" alt="Foto 6">
+                <img src="images.img" alt="Foto 7">
+                <img src="pepe.jpg" alt="Foto 8">
+                <img src="mariana.jpg" alt="Foto 9">
+                <img src="linda.jfif" alt="Foto 10">
+                <img src="delta.jpg" alt="Foto 11">      
+                <img src="mar.jpg" alt="Foto 12">        
+                <img src="eduardo.jfif" alt="Foto 13">
+                <img src="eduard.jfif" alt="Foto 14">
+            </section>
+
+            <!-- Sección de video -->
+            <section class="section" id="video">
+                <h2>Video</h2>
+                <video controls width="400px">   
+                    <source src="tito.mp4" type="video/mp4">
+                </video>
+                <br><br>
+             
+            <!-- Sección de audio -->
+            <section class="section" id="audio">
+                <h2>Audio</h2>
+                <audio controls>
+                    <source src="alan.mp3" type="audio/mp3">
+                </audio>
+            </section>
+        </div>
+         <section class="section" id="enlaces">
+         <li><a href="https://www.google.com" target="_blank">Google</a></li>
+         <li><a href="https://www.youtube.com" target="_blank">YouTube</a></li>
+         </section>
+        <!-- Sección al final -->
+        <section id="final" class="section">
+          <footer>
+        <p><h2>© 2025 MS Studio <h2> </p>
+    </footer>
+            <h2>Gracias por visitar</h2>
+            <p>Has llegado al final de la página.</p>
+            <li><a href="#top">Regresar arriba</a></li>
+        </section>
+    </div>
+
+    <script>
+        // Validación de inicio de sesión
+        function validateLogin() {
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+
+            var validEmail = "usuario@ejemplo.com"; // Cambia esto con tu correo
+            var validPassword = "12345"; // Cambia esto con tu contraseña
+
+            if (email === validEmail && password === validPassword) {
+                // Mostrar el contenido principal y ocultar el formulario de login
+                document.getElementById("loginContainer").style.display = "none";
+                document.getElementById("content").style.display = "block";
+                return false; // Prevenir el envío del formulario
+            } else {
+                document.getElementById("errorMessage").style.display = "block";
+                return false; // Prevenir el envío del formulario
+            }
+        }
+
+        // Función para cerrar sesión
+        function logout() {
+            document.getElementById("loginContainer").style.display = "block";
+            document.getElementById("content").style.display = "none";
+        }
+ 
+    </script>
+
+</body>
+</html>
